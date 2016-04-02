@@ -77,7 +77,7 @@ function obdelajBesediloSporocila(sporocilo1){
 			      if((sporocilo.substring(poz,poz+47)==('http://sandbox.lavbic.net/teaching/OIS/gradivo/') )){ 
 			        //text=text+'<img src="'+sporocilo.charAt(poz);
 			        pozicijaPNG=sporocilo.indexOf(".png",poz);
-			        console.log("Pozicija .png je " +pozicijaPNG);
+			        //console.log("Pozicija .png je " +pozicijaPNG);
 			        text=text+'<img src='+"'"+sporocilo.substring(poz,pozicijaPNG+3)+sporocilo.charAt(pozicijaPNG+3);
 			        
 			        poz=pozicijaPNG+4;
@@ -106,10 +106,10 @@ function obdelajBesediloSporocila(sporocilo1){
 		          pozGIF=sporocilo.indexOf(".gif",poz+1);
 		          pozHTTP=sporocilo.indexOf("http://",poz+1);
 		          pozHTTPS=sporocilo.indexOf("https://",poz+1);
-		          console.log("pozPNG="+pozPNG+" pozJPG=" +pozJPG+ " pozGIF=" +pozGIF );
+		          /*console.log("pozPNG="+pozPNG+" pozJPG=" +pozJPG+ " pozGIF=" +pozGIF );
 		          console.log("pozHTTP="+pozHTTP+" pozHTTPS=" +pozHTTPS);
 		          console.log("Minimalna pozicija koncnice slike: " + poisciMinPozKoncnice(pozGIF, pozJPG, pozPNG) + "    Minimalna pozicija http://: " +  poisciMinPozHTTP(pozHTTP, pozHTTPS));
-			        
+			        */
 			        if(poisciMinPozKoncnice(pozGIF, pozJPG, pozPNG)==-1){  // ce ni slikovnih url-jev obravnavaj sporocilo kot text
 			          text=text+sporocilo.charAt(poz);
 			          poz++;
@@ -135,9 +135,9 @@ function obdelajBesediloSporocila(sporocilo1){
 		          pozGIF=sporocilo.indexOf(".gif",poz+1);
 		          pozHTTP=sporocilo.indexOf("http://",poz+1);
 		          pozHTTPS=sporocilo.indexOf("https://",poz+1);
-		          console.log("pozPNG="+pozPNG+" pozJPG=" +pozJPG+ " pozGIF=" +pozGIF );
+		          /*console.log("pozPNG="+pozPNG+" pozJPG=" +pozJPG+ " pozGIF=" +pozGIF );
 		          console.log("pozHTTP="+pozHTTP+" pozHTTPS=" +pozHTTPS);
-		          console.log("Minimalna pozicija koncnice slike: " + poisciMinPozKoncnice(pozGIF, pozJPG, pozPNG) + "    Minimalna pozicija http://: " +  poisciMinPozHTTP(pozHTTP, pozHTTPS));
+		          console.log("Minimalna pozicija koncnice slike: " + poisciMinPozKoncnice(pozGIF, pozJPG, pozPNG) + "    Minimalna pozicija http://: " +  poisciMinPozHTTP(pozHTTP, pozHTTPS));*/
 			        
 			        if(poisciMinPozKoncnice(pozGIF, pozJPG, pozPNG)==-1){  // ce ni slikovnih url-jev obravnavaj sporocilo kot text
 			          text=text+sporocilo.charAt(poz);
@@ -211,7 +211,7 @@ function procesirajVnosUporabnika(klepetApp, socket) {       //POSLJI SPOROCILO
     sistemskoSporocilo = klepetApp.procesirajUkaz(sporocilo);
 
     if (sistemskoSporocilo) {
-      console.log( sistemskoSporocilo);
+      //console.log( sistemskoSporocilo);
       $('#sporocila').append(divElementHtmlTekst(sistemskoSporocilo));
     }
   } else {
@@ -297,18 +297,6 @@ $(document).ready(function() {
 
   });
   
-  socket.on('dregljaj', function(){
-    $('#vsebina').jrumble();
-    $('#vsebina').trigger('startRumble');
-    setTimeout(function(){
-      $('#vsebina').trigger('stopRumble');
-    },1500);
-  });
-
-
-
-
-
   setInterval(function() {
     socket.emit('kanali');
     socket.emit('uporabniki', {kanal: trenutniKanal});
