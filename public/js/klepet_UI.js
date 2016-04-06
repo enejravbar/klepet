@@ -4,13 +4,12 @@ function divElementEnostavniTekst(sporocilo) {
   if(jeSmesko || sporocilo.indexOf('http://')>-1 || sporocilo.indexOf('https://')>-1  ){
       
       textZaPoslat = obdelajBesediloSporocila(sporocilo);
+     textZaPoslat = textZaPoslat.replace(/\</g, '&lt;').replace(/\>/g, '&gt;').replace(new RegExp('&lt;img', 'gi'), '<img').replace(new RegExp('png\' /&gt;', 'gi'), 'png\' />').replace(new RegExp('jpg\' /&gt;', 'gi'), 'jpg\' />').replace(new RegExp('gif\' /&gt;', 'gi'), 'gif\' />');
       var HTMLtext= dobiHTMLElementeIzObdelanegaBesedila(textZaPoslat);
-      //console.log("Pred modifikacijo:"+textZaPoslat);
-      textZaPoslat = textZaPoslat.replace(/\</g, '&lt;').replace(/\>/g, '&gt;').replace(new RegExp('&lt;img', 'gi'), '<img').replace(new RegExp('png\' /&gt;', 'gi'), 'png\' />').replace(new RegExp('jpg\' /&gt;', 'gi'), 'jpg\' />').replace(new RegExp('gif\' /&gt;', 'gi'), 'gif\' />');
-      
-     // console.log("Po modifikacijo:"+textZaPoslat);
-      return  $('<div style="font-weight: bold;"></div>').html(sporocilo+HTMLtext);
-   
+      console.log("Po modifikacijo:"+textZaPoslat);
+      sporocilo= sporocilo.replace(/\</g, '&lt;').replace(/\>/g, '&gt;').replace(new RegExp('&lt;img', 'gi'), '<img').replace(new RegExp('png\' /&gt;', 'gi'), 'png\' />').replace(new RegExp('jpg\' /&gt;', 'gi'), 'jpg\' />').replace(new RegExp('gif\' /&gt;', 'gi'), 'gif\' />');
+      return  $('<div style="font-weight: bold;"></div>').html(pripraviTekstnovniDelSporocila(sporocilo)+HTMLtext);
+  
   }else {
     	    sporocilo=sporocilo.replace(/\"/g , "\'");
           return $('<div style="font-weight: bold;"></div>').text(sporocilo);
@@ -57,12 +56,12 @@ function dobiHTMLElementeIzObdelanegaBesedila(obdelanoBesedilo){
   var poz;
   for(var i=0; i<obdelanoBesedilo.length;i++){
     if(i+3<obdelanoBesedilo.length){
-      if(obdelanoBesedilo.substring(i,i+4)=="<img"){
+      if(obdelanoBesedilo.substring(i,i+4)=="<img"){  // torej ne appandaj smeškotov 
         HTMLtext+=obdelanoBesedilo.substring(i,obdelanoBesedilo.indexOf("/>",i+1)+2);
       }    
     }
   }
-  //console.log("HTML text je: " + HTMLtext);
+  console.log("HTML text je: " + HTMLtext);
   return HTMLtext;
 }
 
@@ -198,7 +197,46 @@ function obdelajBesediloSporocila(sporocilo1){
 		  return text;
 
 	}
+	
+function pripraviTekstnovniDelSporocila(sporocilo1){   // smeskoti se morajo prikazovati med tekstom ne spodaj ker so vse slike in videi
+		var text="";
+		var kontrola=0;
+		var poz=0;
+		var pozicijaPNG=0;
+		var sporocilo=sporocilo1;
+		
 
+		console.log(sporocilo);
+		for(var i=0; i<sporocilo.length; i++){
+			if(poz>=sporocilo.length){break;}
+		
+		    if(sporocilo.charAt(poz)=='h' || sporocilo.charAt(poz)=='.'){
+
+		      if( sporocilo.length>=poz+47 ){   // naredi smejkota
+		        pozicijaPNG=0;
+			      if((sporocilo.substring(poz,poz+47)==('http://sandbox.lavbic.net/teaching/OIS/gradivo/') )){ 
+			        //text=text+'<img src="'+sporocilo.charAt(poz);
+			        pozicijaPNG=sporocilo.indexOf(".png",poz);
+			        //console.log("Pozicija .png je " +pozicijaPNG);
+		        text=text+'<img src='+"'"+sporocilo.substring(poz,pozicijaPNG+3)+sporocilo.charAt(pozicijaPNG+3);
+		        
+			        poz=pozicijaPNG+4;
+			        continue;
+			      }
+			  }
+			 
+		        text=text+sporocilo.charAt(poz);
+		      
+		      
+		    }else{
+		      text=text+sporocilo.charAt(poz);
+		    }		  
+		    poz++;
+		    
+		}
+		  return text;
+
+	}
 	
 function divElementHtmlTekst(sporocilo) {
   return divElementEnostavniTekst(sporocilo);
