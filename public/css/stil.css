@@ -54,6 +54,12 @@ a {
   margin-right: 1em;
 }
 
+#seznam-uporabnikov  div:hover{
+  border-bottom: 1px solid #eee;
+  background-color: #ddd;
+  cursor: pointer;
+}
+
 #pomoc {
   font: 10px "Lucida Grande", Helvetica, Arial, sans-serif;
 }

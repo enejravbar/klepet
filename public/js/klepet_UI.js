@@ -99,6 +99,14 @@ $(document).ready(function() {
     for (var i=0; i < uporabniki.length; i++) {
       $('#seznam-uporabnikov').append(divElementEnostavniTekst(uporabniki[i]));
     }
+    
+        // dodatek za prvo nalogo
+    
+    $('#seznam-uporabnikov div').click(function() {
+      $('#poslji-sporocilo').val('/zasebno "'+$(this).text()+'"');
+      $('#poslji-sporocilo').focus();
+    });
+
   });
 
   setInterval(function() {
