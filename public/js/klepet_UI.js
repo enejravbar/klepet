@@ -2,13 +2,14 @@ function divElementEnostavniTekst(sporocilo) {
   var jeSmesko = sporocilo.indexOf('http://sandbox.lavbic.net/teaching/OIS/gradivo/') > -1;
   var textZaPoslat="";
   if(jeSmesko || sporocilo.indexOf('http://')>-1 || sporocilo.indexOf('https://')>-1  ){
-    
+      
       textZaPoslat = obdelajBesediloSporocila(sporocilo);
+      var HTMLtext= dobiHTMLElementeIzObdelanegaBesedila(textZaPoslat);
       //console.log("Pred modifikacijo:"+textZaPoslat);
       textZaPoslat = textZaPoslat.replace(/\</g, '&lt;').replace(/\>/g, '&gt;').replace(new RegExp('&lt;img', 'gi'), '<img').replace(new RegExp('png\' /&gt;', 'gi'), 'png\' />').replace(new RegExp('jpg\' /&gt;', 'gi'), 'jpg\' />').replace(new RegExp('gif\' /&gt;', 'gi'), 'gif\' />');
       
      // console.log("Po modifikacijo:"+textZaPoslat);
-      return  $('<div style="font-weight: bold;"></div>').html(textZaPoslat);
+      return  $('<div style="font-weight: bold;"></div>').html(sporocilo+HTMLtext);
    
   }else {
     	    sporocilo=sporocilo.replace(/\"/g , "\'");
@@ -51,6 +52,20 @@ function poisciMinPozHTTP(pozHTTP, pozHTTPS){      // ce je -1 pomeni da v sporo
   return min;
   
 }
+function dobiHTMLElementeIzObdelanegaBesedila(obdelanoBesedilo){
+  var HTMLtext="";
+  var poz;
+  for(var i=0; i<obdelanoBesedilo.length;i++){
+    if(i+3<obdelanoBesedilo.length){
+      if(obdelanoBesedilo.substring(i,i+4)=="<img"){
+        HTMLtext+=obdelanoBesedilo.substring(i,obdelanoBesedilo.indexOf("/>",i+1)+2);
+      }    
+    }
+  }
+  //console.log("HTML text je: " + HTMLtext);
+  return HTMLtext;
+}
+
 function obdelajBesediloSporocila(sporocilo1){
 		var text="";
 		var kontrola=0;
