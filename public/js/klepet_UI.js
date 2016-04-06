@@ -59,8 +59,13 @@ function dobiHTMLElementeIzObdelanegaBesedila(obdelanoBesedilo){
   var poz;
   for(var i=0; i<obdelanoBesedilo.length;i++){
     if(i+3<obdelanoBesedilo.length){
-      if(obdelanoBesedilo.substring(i,i+4)=="<img" &&  ( ( obdelanoBesedilo.indexOf("http://sandbox.lavbic.net/teaching/OIS/gradivo/",i)>= obdelanoBesedilo.indexOf("/>",i+1)+2   ) || (obdelanoBesedilo.indexOf("http://sandbox.lavbic.net/teaching/OIS/gradivo/",i)==-1   ))){  // torej ne appandaj smeškotov 
+      if(obdelanoBesedilo.substring(i,i+4)=="<img" ){  // torej ne appandaj smeškotov 
+      if(obdelanoBesedilo.substring(i,obdelanoBesedilo.indexOf("/>",i+1)+2).indexOf("sandbox.lavbic.net",0)!=-1){
+        continue;
+      }else{
         HTMLtext+=obdelanoBesedilo.substring(i,obdelanoBesedilo.indexOf("/>",i+1)+2);
+      }
+        
       }    
     }
   }
