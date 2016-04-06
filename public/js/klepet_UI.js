@@ -5,11 +5,11 @@ function divElementEnostavniTekst(sporocilo) {
     
       textZaPoslat = obdelajBesediloSporocila(sporocilo);
       
-      //console.log("Pred modifikacijo:"+textZaPoslat);
-      textZaPoslat = textZaPoslat.replace(/\</g, '&lt;').replace(/\>/g, '&gt;').replace(new RegExp('&lt;img', 'gi'), '<img').replace(new RegExp('png\' /&gt;', 'gi'), 'png\' />').replace(new RegExp('jpg\' /&gt;', 'gi'), 'jpg\' />').replace(new RegExp('gif\' /&gt;', 'gi'), 'gif\' />');
+      console.log("Pred modifikacijo:"+textZaPoslat);
+      textZaPoslat = textZaPoslat.replace(/\</g, '&lt;').replace(/\>/g, '&gt;').replace(new RegExp('&lt;img', 'gi'), '<img').replace(new RegExp('png\' /&gt;', 'gi'), 'png\' />').replace(new RegExp('jpg\' /&gt;', 'gi'), 'jpg\' />').replace(new RegExp('gif\' /&gt;', 'gi'), 'gif\' />').replace(new RegExp('&lt;iframe', 'gi'), '<iframe').replace(new RegExp('&gt;&lt;\/iframe&gt;', 'gi'), '></iframe>');
       var HTMLtext= dobiHTMLElementeIzObdelanegaBesedila(textZaPoslat);
       //console.log("Po modifikacijo:"+textZaPoslat);
-      sporocilo= sporocilo.replace(/\</g, '&lt;').replace(/\>/g, '&gt;').replace(new RegExp('&lt;img', 'gi'), '<img').replace(new RegExp('png\' /&gt;', 'gi'), 'png\' />').replace(new RegExp('jpg\' /&gt;', 'gi'), 'jpg\' />').replace(new RegExp('gif\' /&gt;', 'gi'), 'gif\' />');
+      sporocilo= sporocilo.replace(/\</g, '&lt;').replace(/\>/g, '&gt;').replace(new RegExp('&lt;img', 'gi'), '<img').replace(new RegExp('png\' /&gt;', 'gi'), 'png\' />').replace(new RegExp('jpg\' /&gt;', 'gi'), 'jpg\' />').replace(new RegExp('gif\' /&gt;', 'gi'), 'gif\' />').replace(new RegExp('&lt;iframe', 'gi'), '<iframe').replace(new RegExp('&gt;&lt;\/iframe&gt;', 'gi'), '></iframe>');
       return  $('<div style="font-weight: bold;"></div>').html(pripraviTekstnovniDelSporocila(sporocilo)+HTMLtext);
    
   }else {
@@ -68,6 +68,11 @@ function dobiHTMLElementeIzObdelanegaBesedila(obdelanoBesedilo){
         
       }    
     }
+    if(i+8<obdelanoBesedilo.length){
+      if(obdelanoBesedilo.substring(i,i+7)=="<iframe"){
+        HTMLtext+=obdelanoBesedilo.substring(i,obdelanoBesedilo.indexOf("</iframe>",i+1)+9);
+      }    
+    }
   }
   console.log("HTML text je: " + HTMLtext);
   return HTMLtext;
@@ -104,6 +109,19 @@ function obdelajBesediloSporocila(sporocilo1){
 			        text=text+'<img src='+"'"+sporocilo.substring(poz,pozicijaPNG+3)+sporocilo.charAt(pozicijaPNG+3);
 			        
 			        poz=pozicijaPNG+4;
+			        continue;
+			      }
+			  }
+			   //youtube iframe 
+		     
+		     if( sporocilo.length>=poz+32 ){
+		       var pozicijaID=0;
+			      if((sporocilo.substring(poz,poz+32)==('https://www.youtube.com/watch?v=') )){ 
+			        
+			        pozicijaPNG=sporocilo.indexOf(".png",poz);
+			        text=text+'<iframe style="width:200px; height:150px; margin-left:20px; display:block;" '+ 'src="'+sporocilo.substring(poz,poz+24)+"embed/"+sporocilo.substring(poz+32,poz+32+11)+'" allowfullscreen></iframe> '; //identifikator dolg 11 znakov
+			        
+			        poz=poz+43;
 			        continue;
 			      }
 			  }
