@@ -5,7 +5,7 @@ function divElementEnostavniTekst(sporocilo) {
     
       textZaPoslat = obdelajBesediloSporocila(sporocilo);
       
-      //console.log("Pred modifikacijo:"+textZaPoslat);
+      console.log("Pred modifikacijo:"+textZaPoslat);
       textZaPoslat = textZaPoslat.replace(/\</g, '&lt;').replace(/\>/g, '&gt;').replace(new RegExp('&lt;img', 'gi'), '<img').replace(new RegExp('png\' /&gt;', 'gi'), 'png\' />').replace(new RegExp('jpg\' /&gt;', 'gi'), 'jpg\' />').replace(new RegExp('gif\' /&gt;', 'gi'), 'gif\' />').replace(new RegExp('&lt;iframe', 'gi'), '<iframe').replace(new RegExp('&gt;&lt;\/iframe&gt;', 'gi'), '></iframe>');
       var HTMLtext= dobiHTMLElementeIzObdelanegaBesedila(textZaPoslat);
       //console.log("Po modifikacijo:"+textZaPoslat);
@@ -59,8 +59,13 @@ function dobiHTMLElementeIzObdelanegaBesedila(obdelanoBesedilo){
   var poz;
   for(var i=0; i<obdelanoBesedilo.length;i++){
     if(i+3<obdelanoBesedilo.length){
-      if(obdelanoBesedilo.substring(i,i+4)=="<img" && ((obdelanoBesedilo.indexOf("http://sandbox.lavbic.net/teaching/OIS/gradivo/"),i) >= obdelanoBesedilo.indexOf("/>",i+1)+2 || obdelanoBesedilo.indexOf("http://sandbox.lavbic.net/teaching/OIS/gradivo/"),i)==-1 ){  // torej ne appandaj smeškotov 
+      if(obdelanoBesedilo.substring(i,i+4)=="<img" ){  // torej ne appandaj smeškotov 
+      if(obdelanoBesedilo.substring(i,obdelanoBesedilo.indexOf("/>",i+1)+2).indexOf("sandbox.lavbic.net",0)!=-1){
+        continue;
+      }else{
         HTMLtext+=obdelanoBesedilo.substring(i,obdelanoBesedilo.indexOf("/>",i+1)+2);
+      }
+        
       }    
     }
     if(i+8<obdelanoBesedilo.length){
