@@ -5,7 +5,7 @@ function divElementEnostavniTekst(sporocilo) {
     
       textZaPoslat = obdelajBesediloSporocila(sporocilo);
       
-      console.log("Pred modifikacijo:"+textZaPoslat);
+     // console.log("Pred modifikacijo:"+textZaPoslat);
       textZaPoslat = textZaPoslat.replace(/\</g, '&lt;').replace(/\>/g, '&gt;').replace(new RegExp('&lt;img', 'gi'), '<img').replace(new RegExp('png\' /&gt;', 'gi'), 'png\' />').replace(new RegExp('jpg\' /&gt;', 'gi'), 'jpg\' />').replace(new RegExp('gif\' /&gt;', 'gi'), 'gif\' />').replace(new RegExp('&lt;iframe', 'gi'), '<iframe').replace(new RegExp('&gt;&lt;\/iframe&gt;', 'gi'), '></iframe>');
       var HTMLtext= dobiHTMLElementeIzObdelanegaBesedila(textZaPoslat);
       //console.log("Po modifikacijo:"+textZaPoslat);
@@ -74,7 +74,7 @@ function dobiHTMLElementeIzObdelanegaBesedila(obdelanoBesedilo){
       }    
     }
   }
-  console.log("HTML text je: " + HTMLtext);
+  //console.log("HTML text je: " + HTMLtext);
   return HTMLtext;
 }
 
@@ -94,7 +94,7 @@ function obdelajBesediloSporocila(sporocilo1){
 		
 	//	sporocilo=sporocilo.replace(/\"/g , "\'");
 	
-		console.log(sporocilo);
+		//console.log(sporocilo);
 		for(var i=0; i<sporocilo.length; i++){
 			if(poz>=sporocilo.length){break;}
 			
@@ -239,7 +239,7 @@ function pripraviTekstnovniDelSporocila(sporocilo1){   // smeskoti se morajo pri
 		var sporocilo=sporocilo1;
 		
 
-		console.log(sporocilo);
+		//console.log(sporocilo);
 		for(var i=0; i<sporocilo.length; i++){
 			if(poz>=sporocilo.length){break;}
 			
