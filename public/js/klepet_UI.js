@@ -94,7 +94,7 @@ function obdelajBesediloSporocila(sporocilo1){
 		
 	//	sporocilo=sporocilo.replace(/\"/g , "\'");
 	
-		console.log(sporocilo);
+		//console.log(sporocilo);
 		for(var i=0; i<sporocilo.length; i++){
 			if(poz>=sporocilo.length){break;}
 			
@@ -239,7 +239,7 @@ function pripraviTekstnovniDelSporocila(sporocilo1){   // smeskoti se morajo pri
 		var sporocilo=sporocilo1;
 		
 
-		console.log(sporocilo);
+		//console.log(sporocilo);
 		for(var i=0; i<sporocilo.length; i++){
 			if(poz>=sporocilo.length){break;}
 			
